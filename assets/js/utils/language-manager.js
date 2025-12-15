@@ -15,7 +15,7 @@ class LanguageManager {
 
     async loadTranslations() {
         try {
-            const response = await fetch(`/assets/i18n/${this.currentLang}.json`);
+            const response = await fetch(`/HomeMgM/assets/i18n/${this.currentLang}.json`);
             if (!response.ok) {
                 throw new Error(`Failed to load translations for ${this.currentLang}`);
             }
@@ -169,4 +169,5 @@ class LanguageManager {
 }
 
 // Initialize globally
+
 const languageManager = new LanguageManager();
