@@ -1,6 +1,7 @@
 class AuthManager {
     constructor() {
         this.currentUser = null;
+        this.currentUserProfile = null;
         this.authListeners = [];
     }
 
@@ -9,11 +10,11 @@ class AuthManager {
         auth.onAuthStateChanged(user => {
             this.currentUser = user;
             this.notifyListeners(user);
-            
+
             if (user) {
                 // Load user profile
                 this.loadUserProfile(user.uid);
-                
+
                 // Apply user's language preference
                 database.ref(`users/${user.uid}/preferredLanguage`).once('value')
                     .then(snapshot => {
@@ -36,7 +37,7 @@ class AuthManager {
         try {
             const snapshot = await database.ref(`users/${uid}`).once('value');
             const userData = snapshot.val();
-            
+
             if (userData) {
                 this.currentUserProfile = {
                     uid: uid,
@@ -55,19 +56,32 @@ class AuthManager {
             if (!userData.userName || !userData.password || !userData.apartmentId) {
                 throw new Error('Missing required fields');
             }
-            
+
             // Check if username already exists
             const usernameSnapshot = await database.ref('users').orderByChild('userName').equalTo(userData.userName).once('value');
             if (usernameSnapshot.exists()) {
                 throw new Error('Username already exists');
             }
-            
+
+            // Check if email already exists in Firebase Auth
+            try {
+                const existingUser = await auth.fetchSignInMethodsForEmail(userData.email);
+                if (existingUser.length > 0) {
+                    throw new Error('Email already in use');
+                }
+            } catch (error) {
+                // If error is not about existing email, continue
+                if (error.code !== 'auth/user-not-found') {
+                    throw error;
+                }
+            }
+
             // Hash password
             const passwordHash = await passwordManager.createHash(userData.password);
-            
+
             // Create user in Firebase Auth
             const authResult = await auth.createUserWithEmailAndPassword(userData.email, userData.password);
-            
+
             // Create user profile in database
             const dateInfo = dateManager.getCurrentDateInfo();
             const userProfile = {
@@ -85,9 +99,9 @@ class AuthManager {
                     iso: dateInfo.iso
                 }
             };
-            
+
             await database.ref(`users/${authResult.user.uid}`).set(userProfile);
-            
+
             return {
                 success: true,
                 uid: authResult.user.uid
@@ -102,74 +116,74 @@ class AuthManager {
     }
 
     // Login user
-async function login(userName, password) {
-    try {
-        // Find user by username
-        const snapshot = await database.ref('users').orderByChild('userName').equalTo(userName).once('value');
-        
-        if (!snapshot.exists()) {
-            throw new Error('User not found');
-        }
-        
-        let userId;
-        let userData;
-        
-        snapshot.forEach(childSnapshot => {
-            userId = childSnapshot.key;
-            userData = childSnapshot.val();
-        });
-        
-        // Verify password
-        const isValidPassword = await passwordManager.verifyPassword(password, userData.passwordHash);
-        
-        if (!isValidPassword) {
-            throw new Error('Invalid password');
-        }
-        
-        // Get user email from Firebase Auth
+    async login(userName, password) {
         try {
-            const userRecord = await auth.getUser(userId);
-            
-            // Sign in with Firebase Auth
-            await auth.signInWithEmailAndPassword(userRecord.email, password);
-            
-            return {
-                success: true,
-                uid: userId,
-                role: userData.role
-            };
-        } catch (authError) {
-            // If user doesn't exist in Auth, create them
-            if (authError.code === 'auth/user-not-found') {
-                // Create user in Firebase Auth
-                const authResult = await auth.createUserWithEmailAndPassword(
-                    `${userName}@temp.local`, // Temporary email
-                    password
-                );
-                
-                // Update email in Firebase Auth
-                await authResult.user.updateEmail(userData.email);
-                
-                // Sign in
-                await auth.signInWithEmailAndPassword(userData.email, password);
-                
+            // Find user by username
+            const snapshot = await database.ref('users').orderByChild('userName').equalTo(userName).once('value');
+
+            if (!snapshot.exists()) {
+                throw new Error('User not found');
+            }
+
+            let userId;
+            let userData;
+
+            snapshot.forEach(childSnapshot => {
+                userId = childSnapshot.key;
+                userData = childSnapshot.val();
+            });
+
+            // Verify password
+            const isValidPassword = await passwordManager.verifyPassword(password, userData.passwordHash);
+
+            if (!isValidPassword) {
+                throw new Error('Invalid password');
+            }
+
+            // Get user email from Firebase Auth
+            try {
+                const userRecord = await auth.getUser(userId);
+
+                // Sign in with Firebase Auth
+                await auth.signInWithEmailAndPassword(userRecord.email, password);
+
                 return {
                     success: true,
                     uid: userId,
                     role: userData.role
                 };
-            } else {
-                throw authError;
+            } catch (authError) {
+                // If user doesn't exist in Auth, create them
+                if (authError.code === 'auth/user-not-found') {
+                    // Create user in Firebase Auth
+                    const authResult = await auth.createUserWithEmailAndPassword(
+                        `${userName}@temp.local`, // Temporary email
+                        password
+                    );
+
+                    // Update email in Firebase Auth
+                    await authResult.user.updateEmail(userData.email);
+
+                    // Sign in
+                    await auth.signInWithEmailAndPassword(userData.email, password);
+
+                    return {
+                        success: true,
+                        uid: userId,
+                        role: userData.role
+                    };
+                } else {
+                    throw authError;
+                }
             }
+        } catch (error) {
+            console.error('Login error:', error);
+            return {
+                success: false,
+                error: error.message
+            };
         }
-    } catch (error) {
-        console.error('Login error:', error);
-        return {
-            success: false,
-            error: error.message
-        };
     }
-}
 
     // Logout user
     async logout() {
@@ -188,7 +202,7 @@ async function login(userName, password) {
     // Add auth state listener
     addAuthListener(callback) {
         this.authListeners.push(callback);
-        
+
         // Call immediately with current state
         callback(this.currentUser);
     }
@@ -217,15 +231,14 @@ async function login(userName, password) {
     // Check if current user can access apartment
     canAccessApartment(apartmentId) {
         if (!this.currentUserProfile) return false;
-        
+
         // System admins can access all apartments
         if (this.currentUserProfile.role === 'systemAdmin') return true;
-        
+
         // Otherwise, check if user belongs to the apartment
         return this.currentUserProfile.apartmentId === apartmentId;
     }
 }
 
 // Initialize globally
-
 const authManager = new AuthManager();
