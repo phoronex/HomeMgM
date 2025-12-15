@@ -102,31 +102,32 @@ class AuthManager {
     }
 
     // Login user
-    async login(userName, password) {
+async function login(userName, password) {
+    try {
+        // Find user by username
+        const snapshot = await database.ref('users').orderByChild('userName').equalTo(userName).once('value');
+        
+        if (!snapshot.exists()) {
+            throw new Error('User not found');
+        }
+        
+        let userId;
+        let userData;
+        
+        snapshot.forEach(childSnapshot => {
+            userId = childSnapshot.key;
+            userData = childSnapshot.val();
+        });
+        
+        // Verify password
+        const isValidPassword = await passwordManager.verifyPassword(password, userData.passwordHash);
+        
+        if (!isValidPassword) {
+            throw new Error('Invalid password');
+        }
+        
+        // Get user email from Firebase Auth
         try {
-            // Find user by username
-            const snapshot = await database.ref('users').orderByChild('userName').equalTo(userName).once('value');
-            
-            if (!snapshot.exists()) {
-                throw new Error('User not found');
-            }
-            
-            let userId;
-            let userData;
-            
-            snapshot.forEach(childSnapshot => {
-                userId = childSnapshot.key;
-                userData = childSnapshot.val();
-            });
-            
-            // Verify password
-            const isValidPassword = await passwordManager.verifyPassword(password, userData.passwordHash);
-            
-            if (!isValidPassword) {
-                throw new Error('Invalid password');
-            }
-            
-            // Get user email from Firebase Auth
             const userRecord = await auth.getUser(userId);
             
             // Sign in with Firebase Auth
@@ -137,14 +138,38 @@ class AuthManager {
                 uid: userId,
                 role: userData.role
             };
-        } catch (error) {
-            console.error('Login error:', error);
-            return {
-                success: false,
-                error: error.message
-            };
+        } catch (authError) {
+            // If user doesn't exist in Auth, create them
+            if (authError.code === 'auth/user-not-found') {
+                // Create user in Firebase Auth
+                const authResult = await auth.createUserWithEmailAndPassword(
+                    `${userName}@temp.local`, // Temporary email
+                    password
+                );
+                
+                // Update email in Firebase Auth
+                await authResult.user.updateEmail(userData.email);
+                
+                // Sign in
+                await auth.signInWithEmailAndPassword(userData.email, password);
+                
+                return {
+                    success: true,
+                    uid: userId,
+                    role: userData.role
+                };
+            } else {
+                throw authError;
+            }
         }
+    } catch (error) {
+        console.error('Login error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
     }
+}
 
     // Logout user
     async logout() {
@@ -202,4 +227,5 @@ class AuthManager {
 }
 
 // Initialize globally
+
 const authManager = new AuthManager();
