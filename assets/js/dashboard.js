@@ -372,6 +372,126 @@ document.addEventListener('DOMContentLoaded', () => {
         loadDashboardData();
     }
 });
+// Add this function before line 378 in dashboard.js
+function loadPurchasesData() {
+    console.log("loadPurchasesData called");
+    
+    // Get current user from localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!currentUser) {
+        console.error("No user found in localStorage");
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    console.log("Loading purchases for user:", currentUser);
+    
+    // Show loading state
+    document.getElementById('purchasesData').innerHTML = `
+        <tr>
+            <td colspan="8" class="text-center">
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Loading purchases...
+            </td>
+        </tr>
+    `;
+    
+    // Load purchases for the user's apartment
+    const purchasesRef = database.ref('purchases');
+    const userApartmentId = currentUser.apartmentId;
+    
+    purchasesRef.orderByChild('apartmentId').equalTo(userApartmentId).once('value')
+        .then((snapshot) => {
+            const purchases = snapshot.val();
+            const purchasesData = document.getElementById('purchasesData');
+            purchasesData.innerHTML = '';
+            
+            if (!purchases) {
+                purchasesData.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            No purchases found for your apartment
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let totalAmount = 0;
+            let purchaseCount = 0;
+            
+            Object.keys(purchases).forEach((purchaseId) => {
+                const purchase = purchases[purchaseId];
+                
+                // Skip if deleted
+                if (purchase.isDeleted) return;
+                
+                const row = document.createElement('tr');
+                
+                // Format date
+                const date = new Date(purchase.dateInfo?.unix * 1000 || Date.now());
+                const formattedDate = date.toLocaleDateString();
+                
+                // Calculate total
+                const purchaseTotal = purchase.totalPrice || (purchase.quantity * purchase.itemPriceAtTime);
+                totalAmount += purchaseTotal;
+                purchaseCount++;
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${purchase.vendorId || 'N/A'}</td>
+                    <td>${purchase.itemId || 'N/A'}</td>
+                    <td class="text-end">${purchase.quantity || 0}</td>
+                    <td class="text-end">$${(purchase.itemPriceAtTime || 0).toFixed(2)}</td>
+                    <td class="text-end">$${purchaseTotal.toFixed(2)}</td>
+                    <td>${purchase.addedBy || 'Unknown'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" onclick="editPurchase('${purchaseId}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deletePurchase('${purchaseId}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                purchasesData.appendChild(row);
+            });
+            
+            // Update summary
+            document.getElementById('totalPurchases').textContent = purchaseCount;
+            document.getElementById('totalAmount').textContent = `$${totalAmount.toFixed(2)}`;
+            
+            // Initialize charts if they exist
+            if (typeof initCharts === 'function') {
+                initCharts(purchases);
+            }
+            
+        })
+        .catch((error) => {
+            console.error("Error loading purchases:", error);
+            document.getElementById('purchasesData').innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center text-danger">
+                        Error loading purchases: ${error.message}
+                    </td>
+                </tr>
+            `;
+        });
+}
+
+// Also add this function for chart initialization
+function initCharts(purchasesData) {
+    // Initialize purchase chart if canvas exists
+    const purchaseChartCanvas = document.getElementById('purchaseChart');
+    if (purchaseChartCanvas && window.Chart) {
+        // Your chart initialization code here
+        console.log("Initializing charts with data:", purchasesData);
+    }
+}
 
 // Export functions for use in other files
 window.loadDashboardData = loadDashboardData;
@@ -380,4 +500,5 @@ window.loadVendorsData = loadVendorsData;
 window.loadItemsData = loadItemsData;
 window.loadReportsData = loadReportsData;
 window.loadUsersData = loadUsersData;
+
 window.loadProfileData = loadProfileData;
