@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="backup_restore">Backup & Restore - Home Purchase Manager</title>
+    <link rel="stylesheet" href="/HomeMgM/assets/css/theme.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/layout.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/components.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="purchases">
+                <i class="icon-purchases"></i>
+                <span data-i18n="purchases">Purchases</span>
+            </div>
+            <div class="sidebar-item" data-page="vendors">
+                <i class="icon-vendors"></i>
+                <span data-i18n="vendors">Vendors</span>
+            </div>
+            <div class="sidebar-item" data-page="items">
+                <i class="icon-items"></i>
+                <span data-i18n="items">Items</span>
+            </div>
+            <div class="sidebar-item" data-page="reports">
+                <i class="icon-reports"></i>
+                <span data-i18n="reports">Reports</span>
+            </div>
+            <div class="sidebar-item" data-page="users" id="usersMenuItem" style="display: none;">
+                <i class="icon-users"></i>
+                <span data-i18n="users">Users</span>
+            </div>
+            <div class="sidebar-item active" data-page="backup-restore">
+                <i class="icon-database"></i>
+                <span data-i18n="backup_restore">Backup & Restore</span>
+            </div>
+            <div class="sidebar-item" data-page="profile">
+                <i class="icon-profile"></i>
+                <span data-i18n="profile">Profile</span>
+            </div>
+            <div class="sidebar-item" data-page="system-admin" id="systemAdminMenuItem" style="display: none;">
+                <i class="icon-system-admin"></i>
+                <span data-i18n="system_admin">System Admin</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-header">
+                <h1 data-i18n="backup_restore">Backup & Restore</h1>
+            </div>
+
+            <!-- Backup Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 data-i18n="create_backup">Create Backup</h2>
+                </div>
+                <div class="card-body">
+                    <div class="backup-options">
+                        <p data-i18n="backup_description">Create a backup of your data to keep a safe copy. You can restore this backup later if needed.</p>
+                        
+                        <!-- System Admin Options -->
+                        <div id="systemAdminBackupOptions" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="backup_scope">Backup Scope</label>
+                                <select id="backupScope" class="form-control">
+                                    <option value="all" data-i18n="all_data">All Data (Full System)</option>
+                                    <option value="apartment" data-i18n="specific_apartment">Specific Apartment</option>
+                                </select>
+                            </div>
+                            
+                            <div id="apartmentSelector" style="display: none;" class="form-group">
+                                <label class="form-label" data-i18n="select_apartment">Select Apartment</label>
+                                <select id="apartmentSelect" class="form-control">
+                                    <option value="" data-i18n="select_apartment">Select Apartment</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Backup Options for All Users -->
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="backup_format">Backup Format</label>
+                            <select id="backupFormat" class="form-control">
+                                <option value="json">JSON</option>
+                                <option value="encrypted">Encrypted JSON</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <input type="checkbox" id="includeDeletedItems">
+                                <span data-i18n="include_deleted">Include Deleted Items</span>
+                            </label>
+                        </div>
+                        
+                        <button id="createBackupBtn" class="btn" data-i18n="create_backup">Create Backup</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restore Section -->
+            <div class="card" id="restoreSection">
+                <div class="card-header">
+                    <h2 data-i18n="restore_backup">Restore Backup</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <p data-i18n="restore_warning">⚠️ Restoring a backup will replace your current data. This action cannot be undone. Please make sure you have a recent backup before proceeding.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="select_backup_file">Select Backup File</label>
+                        <input type="file" id="restoreFile" class="form-control" accept=".json,.enc">
+                    </div>
+                    
+                    <!-- System Admin Restore Options -->
+                    <div id="systemAdminRestoreOptions" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="restore_options">Restore Options</label>
+                            <div class="restore-options-grid">
+                                <label>
+                                    <input type="checkbox" name="restoreOption" value="users" checked>
+                                    <span data-i18n="users">Users</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="restoreOption" value="purchases" checked>
+                                    <span data-i18n="purchases">Purchases</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="restoreOption" value="vendors" checked>
+                                    <span data-i18n="vendors">Vendors</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="restoreOption" value="items" checked>
+                                    <span data-i18n="items">Items</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="restoreBackupBtn" class="btn btn-danger" data-i18n="restore_backup" disabled>Restore Backup</button>
+                </div>
+            </div>
+
+            <!-- Backup History -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 data-i18n="backup_history">Backup History</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="date">Date</th>
+                                    <th data-i18n="scope">Scope</th>
+                                    <th data-i18n="size">Size</th>
+                                    <th data-i18n="created_by">Created By</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="backupHistoryTable">
+                                <tr>
+                                    <td colspan="5" style="text-align: center;" data-i18n="no_backups">No backups found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="/HomeMgM/assets/js/firebase-config.js"></script>
+    <script src="/HomeMgM/assets/js/utils/language-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/date-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/password-manager.js"></script>
+    <script src="/HomeMgM/assets/js/auth.js"></script>
+    <script src="/HomeMgM/assets/js/main.js"></script>
+    <script src="/HomeMgM/assets/js/backup-restore.js"></script>
+</body>
+</html>
