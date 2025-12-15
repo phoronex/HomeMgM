@@ -1,6 +1,55 @@
 // Dashboard JavaScript
 let spendingChart = null;
 
+// Add this at the VERY TOP of dashboard.js
+(function() {
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!currentUser) {
+        // Redirect to login page
+        console.log("No user found, redirecting to login...");
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    console.log("User logged in:", currentUser);
+    
+    // Initialize Firebase if not already initialized
+    if (!window.firebaseInitialized) {
+        // Your Firebase initialization code here
+        // Make sure to set window.firebaseInitialized = true after init
+    }
+    
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set user info in the navbar
+        const userNameElement = document.getElementById('userName');
+        const userRoleElement = document.getElementById('userRole');
+        
+        if (userNameElement) {
+            userNameElement.textContent = currentUser.userName || currentUser.englishName || 'User';
+        }
+        
+        if (userRoleElement) {
+            userRoleElement.textContent = currentUser.role || 'User';
+        }
+        
+        // Load purchases when page loads
+        if (typeof loadPurchasesData === 'function') {
+            loadPurchasesData();
+        } else {
+            console.error('loadPurchasesData function not loaded');
+            // Try to load it after a delay
+            setTimeout(() => {
+                if (typeof loadPurchasesData === 'function') {
+                    loadPurchasesData();
+                }
+            }, 1000);
+        }
+    });
+})();
+
 // Load dashboard data
 async function loadDashboardData() {
     try {
@@ -502,3 +551,4 @@ window.loadReportsData = loadReportsData;
 window.loadUsersData = loadUsersData;
 
 window.loadProfileData = loadProfileData;
+
