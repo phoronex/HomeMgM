@@ -1,0 +1,321 @@
+/* RTL Overrides CSS */
+
+/* Base direction */
+body.rtl-mode {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--font-primary-ar);
+}
+
+/* Text alignment */
+.rtl-mode .text-left {
+    text-align: right;
+}
+
+.rtl-mode .text-right {
+    text-align: left;
+}
+
+/* Floats */
+.rtl-mode .float-left {
+    float: right;
+}
+
+.rtl-mode .float-right {
+    float: left;
+}
+
+/* Margins and padding */
+.rtl-mode .ml-1,
+.rtl-mode .ml-2,
+.rtl-mode .ml-3,
+.rtl-mode .ml-4,
+.rtl-mode .ml-5 {
+    margin-left: 0;
+}
+
+.rtl-mode .mr-1,
+.rtl-mode .mr-2,
+.rtl-mode .mr-3,
+.rtl-mode .mr-4,
+.rtl-mode .mr-5 {
+    margin-right: 0;
+}
+
+/* Flexbox */
+.rtl-mode .flex-row {
+    flex-direction: row-reverse;
+}
+
+.rtl-mode .justify-content-start {
+    justify-content: flex-end;
+}
+
+.rtl-mode .justify-content-end {
+    justify-content: flex-start;
+}
+
+/* Tables */
+.rtl-mode .table th,
+.rtl-mode .table td {
+    text-align: right;
+}
+
+/* Forms */
+.rtl-mode .form-control {
+    text-align: right;
+}
+
+/* Modals */
+.rtl-mode .modal-header {
+    flex-direction: row-reverse;
+}
+
+/* Cards */
+.rtl-mode .card-header {
+    flex-direction: row-reverse;
+}
+
+/* Navigation */
+.rtl-mode .nav {
+    flex-direction: row-reverse;
+}
+
+.rtl-mode .nav-item {
+    margin-left: 0;
+    margin-right: var(--spacing-sm);
+}
+
+/* Sidebar */
+.rtl-mode .sidebar {
+    right: 0;
+    left: auto;
+}
+
+.rtl-mode .sidebar-item {
+    flex-direction: row-reverse;
+}
+
+/* Content area */
+.rtl-mode .content-area {
+    margin-right: 250px;
+    margin-left: 0;
+}
+
+/* Header */
+.rtl-mode .header-content {
+    flex-direction: row-reverse;
+}
+
+.rtl-mode .user-menu {
+    flex-direction: row-reverse;
+}
+
+/* Buttons */
+.rtl-mode .btn-group {
+    flex-direction: row-reverse;
+}
+
+/* Lists */
+.rtl-mode .list-unstyled {
+    padding-right: 0;
+}
+
+.rtl-mode .list-inline {
+    padding-right: 0;
+}
+
+.rtl-mode .list-inline-item {
+    margin-left: var(--spacing-sm);
+    margin-right: 0;
+}
+
+/* Dropdowns */
+.rtl-mode .dropdown-menu {
+    right: 0;
+    left: auto;
+    text-align: right;
+}
+
+/* Pagination */
+.rtl-mode .pagination {
+    flex-direction: row-reverse;
+}
+
+/* Breadcrumb */
+.rtl-mode .breadcrumb {
+    flex-direction: row-reverse;
+}
+
+/* Tabs */
+.rtl-mode .nav-tabs {
+    flex-direction: row-reverse;
+}
+
+.rtl-mode .nav-tabs .nav-link {
+    margin-left: 0;
+    margin-right: var(--spacing-xs);
+}
+
+/* Alerts */
+.rtl-mode .alert {
+    text-align: right;
+}
+
+/* Progress bars */
+.rtl-mode .progress {
+    direction: ltr; /* Keep progress bars LTR for visual consistency */
+}
+
+/* Tooltips */
+.rtl-mode .tooltip {
+    text-align: right;
+}
+
+/* Popovers */
+.rtl-mode .popover {
+    text-align: right;
+}
+
+/* Modals */
+.rtl-mode .modal-dialog {
+    text-align: right;
+}
+
+/* Forms */
+.rtl-mode .form-check {
+    padding-left: 0;
+    padding-right: var(--spacing-md);
+}
+
+.rtl-mode .form-check-input {
+    margin-left: 0;
+    margin-right: var(--spacing-sm);
+}
+
+/* Input groups */
+.rtl-mode .input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.rtl-mode .input-group .input-group-prepend,
+.rtl-mode .input-group .input-group-append {
+    margin-left: 0;
+    margin-right: -1px;
+}
+
+.rtl-mode .input-group .input-group-prepend .input-group-text,
+.rtl-mode .input-group .input-group-append .input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+/* Custom RTL adjustments */
+.rtl-mode .sidebar-toggle {
+    right: auto;
+    left: 10px;
+}
+
+.rtl-mode .notification {
+    right: auto;
+    left: 20px;
+}
+
+.rtl-mode .dropdown-toggle::after {
+    border-left: 0.3em solid transparent;
+    border-right: 0.3em solid transparent;
+    border-top: 0.3em solid;
+    margin-left: 0;
+    margin-right: 0.255em;
+}
+
+.rtl-mode .dropdown-menu-right {
+    right: auto;
+    left: 0;
+}
+
+.rtl-mode .dropdown-menu-left {
+    right: 0;
+    left: auto;
+}
+
+/* RTL specific icons */
+.rtl-mode .icon-chevron-left::before {
+    content: "›";
+}
+
+.rtl-mode .icon-chevron-right::before {
+    content: "‹";
+}
+
+.rtl-mode .icon-angle-left::before {
+    content: "»";
+}
+
+.rtl-mode .icon-angle-right::before {
+    content: "«";
+}
+
+/* RTL specific margins for icons */
+.rtl-mode .icon-left {
+    margin-left: 0;
+    margin-right: var(--spacing-xs);
+}
+
+.rtl-mode .icon-right {
+    margin-right: 0;
+    margin-left: var(--spacing-xs);
+}
+
+/* RTL specific responsive adjustments */
+@media (max-width: 768px) {
+    .rtl-mode .sidebar {
+        transform: translateX(100%);
+    }
+    
+    .rtl-mode .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .rtl-mode .content-area {
+        margin-right: 0;
+    }
+    
+    .rtl-mode .page-header {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .rtl-mode .card-header {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .rtl-mode .form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .rtl-mode .filters {
+        flex-direction: column;
+    }
+}
+
+/* RTL specific print styles */
+@media print {
+    .rtl-mode {
+        direction: rtl;
+    }
+    
+    .rtl-mode .sidebar {
+        display: none;
+    }
+    
+    .rtl-mode .content-area {
+        margin-right: 0;
+    }
+}

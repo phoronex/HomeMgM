@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="items">Items - Home Purchase Manager</title>
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="purchases">
+                <i class="icon-purchases"></i>
+                <span data-i18n="purchases">Purchases</span>
+            </div>
+            <div class="sidebar-item" data-page="vendors">
+                <i class="icon-vendors"></i>
+                <span data-i18n="vendors">Vendors</span>
+            </div>
+            <div class="sidebar-item active" data-page="items">
+                <i class="icon-items"></i>
+                <span data-i18n="items">Items</span>
+            </div>
+            <div class="sidebar-item" data-page="reports">
+                <i class="icon-reports"></i>
+                <span data-i18n="reports">Reports</span>
+            </div>
+            <div class="sidebar-item" data-page="users" id="usersMenuItem" style="display: none;">
+                <i class="icon-users"></i>
+                <span data-i18n="users">Users</span>
+            </div>
+            <div class="sidebar-item" data-page="profile">
+                <i class="icon-profile"></i>
+                <span data-i18n="profile">Profile</span>
+            </div>
+            <div class="sidebar-item" data-page="system-admin" id="systemAdminMenuItem" style="display: none;">
+                <i class="icon-system-admin"></i>
+                <span data-i18n="system_admin">System Admin</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-header">
+                <h1 data-i18n="items">Items</h1>
+                <button id="addItemBtn" class="btn" data-i18n="add_item">Add Item</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 data-i18n="all_items">All Items</h2>
+                    <div class="filters">
+                        <select id="categoryFilter" class="form-control">
+                            <option value="" data-i18n="all_categories">All Categories</option>
+                            <option value="groceries" data-i18n="groceries">Groceries</option>
+                            <option value="electronics" data-i18n="electronics">Electronics</option>
+                            <option value="clothing" data-i18n="clothing">Clothing</option>
+                            <option value="home" data-i18n="home">Home & Garden</option>
+                            <option value="health" data-i18n="health">Health & Beauty</option>
+                            <option value="other" data-i18n="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="name">Name</th>
+                                    <th data-i18n="category">Category</th>
+                                    <th data-i18n="unit_price">Unit Price</th>
+                                    <th data-i18n="last_purchased">Last Purchased</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTable">
+                                <!-- Items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Item Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="add_item">Add Item</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="itemForm">
+                    <div class="form-group">
+                        <label for="itemEnglishName" class="form-label" data-i18n="english_name">English Name</label>
+                        <input type="text" id="itemEnglishName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemArabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                        <input type="text" id="itemArabicName" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemCategory" class="form-label" data-i18n="category">Category</label>
+                        <select id="itemCategory" class="form-control" required>
+                            <option value="" data-i18n="select_category">Select Category</option>
+                            <option value="groceries" data-i18n="groceries">Groceries</option>
+                            <option value="electronics" data-i18n="electronics">Electronics</option>
+                            <option value="clothing" data-i18n="clothing">Clothing</option>
+                            <option value="home" data-i18n="home">Home & Garden</option>
+                            <option value="health" data-i18n="health">Health & Beauty</option>
+                            <option value="other" data-i18n="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemUnitPrice" class="form-label" data-i18n="unit_price">Unit Price</label>
+                        <input type="number" id="itemUnitPrice" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemDescription" class="form-label" data-i18n="description">Description</label>
+                        <textarea id="itemDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="/assets/js/firebase-config.js"></script>
+    <script src="/assets/js/utils/language-manager.js"></script>
+    <script src="/assets/js/utils/date-manager.js"></script>
+    <script src="/assets/js/utils/password-manager.js"></script>
+    <script src="/assets/js/utils/validators.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/items.js"></script>
+</body>
+</html>

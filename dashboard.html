@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="dashboard_title">Dashboard - Home Purchase Manager</title>
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item active" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="purchases">
+                <i class="icon-purchases"></i>
+                <span data-i18n="purchases">Purchases</span>
+            </div>
+            <div class="sidebar-item" data-page="vendors">
+                <i class="icon-vendors"></i>
+                <span data-i18n="vendors">Vendors</span>
+            </div>
+            <div class="sidebar-item" data-page="items">
+                <i class="icon-items"></i>
+                <span data-i18n="items">Items</span>
+            </div>
+            <div class="sidebar-item" data-page="reports">
+                <i class="icon-reports"></i>
+                <span data-i18n="reports">Reports</span>
+            </div>
+            <div class="sidebar-item" data-page="users" id="usersMenuItem" style="display: none;">
+                <i class="icon-users"></i>
+                <span data-i18n="users">Users</span>
+            </div>
+            <div class="sidebar-item" data-page="profile">
+                <i class="icon-profile"></i>
+                <span data-i18n="profile">Profile</span>
+            </div>
+            <div class="sidebar-item" data-page="system-admin" id="systemAdminMenuItem" style="display: none;">
+                <i class="icon-system-admin"></i>
+                <span data-i18n="system_admin">System Admin</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div id="dashboardPage" class="page-content">
+                <div class="page-header">
+                    <h1 data-i18n="dashboard_title">Dashboard</h1>
+                    <button id="addPurchaseBtn" class="btn" data-i18n="add_purchase">Add Purchase</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="icon-purchases"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="total_purchases_this_month">Total Purchases This Month</h3>
+                            <p id="monthlyPurchasesCount">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="icon-money"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="total_spent_this_month">Total Spent This Month</h3>
+                            <p id="monthlySpentAmount">0 SAR</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="icon-vendors"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="active_vendors">Active Vendors</h3>
+                            <p id="activeVendorsCount">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="icon-items"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 data-i18n="unique_items">Unique Items</h3>
+                            <p id="uniqueItemsCount">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 data-i18n="recent_purchases">Recent Purchases</h2>
+                            <a href="purchases.html" class="btn btn-sm btn-secondary" data-i18n="view_all">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th data-i18n="date">Date</th>
+                                            <th data-i18n="item">Item</th>
+                                            <th data-i18n="vendor">Vendor</th>
+                                            <th data-i18n="quantity">Quantity</th>
+                                            <th data-i18n="price">Price</th>
+                                            <th data-i18n="total">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentPurchasesTable">
+                                        <!-- Recent purchases will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 data-i18n="spending_by_category">Spending by Category</h2>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="spendingChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="purchasesPage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="purchases">Purchases</h1>
+                    <button id="addPurchaseBtn2" class="btn" data-i18n="add_purchase">Add Purchase</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="all_purchases">All Purchases</h2>
+                        <div class="filters">
+                            <select id="monthFilter" class="form-control">
+                                <option value="" data-i18n="all_months">All Months</option>
+                                <!-- Month options will be populated here -->
+                            </select>
+                            <select id="vendorFilter" class="form-control">
+                                <option value="" data-i18n="all_vendors">All Vendors</option>
+                                <!-- Vendor options will be populated here -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="date">Date</th>
+                                        <th data-i18n="item">Item</th>
+                                        <th data-i18n="vendor">Vendor</th>
+                                        <th data-i18n="quantity">Quantity</th>
+                                        <th data-i18n="price">Price</th>
+                                        <th data-i18n="total">Total</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="purchasesTable">
+                                    <!-- Purchases will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vendorsPage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="vendors">Vendors</h1>
+                    <button id="addVendorBtn" class="btn" data-i18n="add_vendor">Add Vendor</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="all_vendors">All Vendors</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="name">Name</th>
+                                        <th data-i18n="contact">Contact</th>
+                                        <th data-i18n="phone">Phone</th>
+                                        <th data-i18n="email">Email</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vendorsTable">
+                                    <!-- Vendors will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="itemsPage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="items">Items</h1>
+                    <button id="addItemBtn" class="btn" data-i18n="add_item">Add Item</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="all_items">All Items</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="name">Name</th>
+                                        <th data-i18n="category">Category</th>
+                                        <th data-i18n="unit_price">Unit Price</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itemsTable">
+                                    <!-- Items will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportsPage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="reports">Reports</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="generate_report">Generate Report</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="reportType" class="form-label" data-i18n="report_type">Report Type</label>
+                            <select id="reportType" class="form-control">
+                                <option value="monthly" data-i18n="monthly_report">Monthly Report</option>
+                                <option value="yearly" data-i18n="yearly_report">Yearly Report</option>
+                                <option value="category" data-i18n="category_report">Category Report</option>
+                                <option value="vendor" data-i18n="vendor_report">Vendor Report</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reportLanguage" class="form-label" data-i18n="report_language">Report Language</label>
+                            <select id="reportLanguage" class="form-control">
+                                <option value="en" data-i18n="english">English</option>
+                                <option value="ar" data-i18n="arabic">Arabic</option>
+                                <option value="bilingual" data-i18n="bilingual">Bilingual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reportFormat" class="form-label" data-i18n="report_format">Report Format</label>
+                            <select id="reportFormat" class="form-control">
+                                <option value="pdf">PDF</option>
+                                <option value="excel">Excel</option>
+                                <option value="html">HTML</option>
+                            </select>
+                        </div>
+                        
+                        <button id="generateReportBtn" class="btn" data-i18n="generate_report">Generate Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="usersPage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="users">Users</h1>
+                    <button id="addUserBtn" class="btn" data-i18n="add_user">Add User</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="apartment_users">Apartment Users</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="username">Username</th>
+                                        <th data-i18n="name">Name</th>
+                                        <th data-i18n="role">Role</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <!-- Users will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profilePage" class="page-content" style="display: none;">
+                <div class="page-header">
+                    <h1 data-i18n="profile">My Profile</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="personal_info">Personal Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="profileUsername" class="form-label" data-i18n="username">Username</label>
+                                <input type="text" id="profileUsername" class="form-control" readonly>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileEnglishName" class="form-label" data-i18n="english_name">English Name</label>
+                                <input type="text" id="profileEnglishName" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileArabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                                <input type="text" id="profileArabicName" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileEmail" class="form-label" data-i18n="email">Email</label>
+                                <input type="email" id="profileEmail" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profilePreferredLanguage" class="form-label" data-i18n="preferred_language">Preferred Language</label>
+                                <select id="profilePreferredLanguage" class="form-control">
+                                    <option value="en">English</option>
+                                    <option value="ar">العربية</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn" data-i18n="save_changes">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="change_password">Change Password</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currentPassword" class="form-label" data-i18n="current_password">Current Password</label>
+                                <input type="password" id="currentPassword" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword" class="form-label" data-i18n="new_password">New Password</label>
+                                <input type="password" id="newPassword" class="form-control" required>
+                                <div id="newPasswordStrength"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmNewPassword" class="form-label" data-i18n="confirm_password">Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" class="form-control" required>
+                            </div>
+                            
+                            <button type="submit" class="btn" data-i18n="change_password">Change Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="add_purchase">Add Purchase</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="purchaseForm">
+                    <div class="form-group">
+                        <label for="purchaseDate" class="form-label" data-i18n="date">Date</label>
+                        <input type="datetime-local" id="purchaseDate" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchaseVendor" class="form-label" data-i18n="vendor">Vendor</label>
+                        <select id="purchaseVendor" class="form-control" required>
+                            <option value="" data-i18n="select_vendor">Select Vendor</option>
+                            <!-- Vendor options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchaseItem" class="form-label" data-i18n="item">Item</label>
+                        <select id="purchaseItem" class="form-control" required>
+                            <option value="" data-i18n="select_item">Select Item</option>
+                            <!-- Item options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchaseQuantity" class="form-label" data-i18n="quantity">Quantity</label>
+                        <input type="number" id="purchaseQuantity" class="form-control" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchasePrice" class="form-label" data-i18n="unit_price">Unit Price</label>
+                        <input type="number" id="purchasePrice" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purchaseTotal" class="form-label" data-i18n="total">Total</label>
+                        <input type="number" id="purchaseTotal" class="form-control" readonly>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Modal -->
+    <div id="vendorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="add_vendor">Add Vendor</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="vendorForm">
+                    <div class="form-group">
+                        <label for="vendorEnglishName" class="form-label" data-i18n="english_name">English Name</label>
+                        <input type="text" id="vendorEnglishName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vendorArabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                        <input type="text" id="vendorArabicName" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vendorContact" class="form-label" data-i18n="contact">Contact</label>
+                        <input type="text" id="vendorContact" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vendorPhone" class="form-label" data-i18n="phone">Phone</label>
+                        <input type="tel" id="vendorPhone" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vendorEmail" class="form-label" data-i18n="email">Email</label>
+                        <input type="email" id="vendorEmail" class="form-control">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="add_item">Add Item</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="itemForm">
+                    <div class="form-group">
+                        <label for="itemEnglishName" class="form-label" data-i18n="english_name">English Name</label>
+                        <input type="text" id="itemEnglishName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemArabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                        <input type="text" id="itemArabicName" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemCategory" class="form-label" data-i18n="category">Category</label>
+                        <select id="itemCategory" class="form-control" required>
+                            <option value="" data-i18n="select_category">Select Category</option>
+                            <option value="groceries" data-i18n="groceries">Groceries</option>
+                            <option value="electronics" data-i18n="electronics">Electronics</option>
+                            <option value="clothing" data-i18n="clothing">Clothing</option>
+                            <option value="home" data-i18n="home">Home & Garden</option>
+                            <option value="health" data-i18n="health">Health & Beauty</option>
+                            <option value="other" data-i18n="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemUnitPrice" class="form-label" data-i18n="unit_price">Unit Price</label>
+                        <input type="number" id="itemUnitPrice" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="add_user">Add User</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="userUsername" class="form-label" data-i18n="username">Username</label>
+                        <input type="text" id="userUsername" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userEnglishName" class="form-label" data-i18n="english_name">English Name</label>
+                        <input type="text" id="userEnglishName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userArabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                        <input type="text" id="userArabicName" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userEmail" class="form-label" data-i18n="email">Email</label>
+                        <input type="email" id="userEmail" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userRole" class="form-label" data-i18n="role">Role</label>
+                        <select id="userRole" class="form-control" required>
+                            <option value="apartmentUser" data-i18n="apartment_user">Apartment User</option>
+                            <option value="apartmentAdmin" data-i18n="apartment_admin">Apartment Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userPassword" class="form-label" data-i18n="password">Password</label>
+                        <input type="password" id="userPassword" class="form-control" required>
+                        <div id="userPasswordStrength"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/assets/js/firebase-config.js"></script>
+    <script src="/assets/js/utils/language-manager.js"></script>
+    <script src="/assets/js/utils/date-manager.js"></script>
+    <script src="/assets/js/utils/password-manager.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+</body>
+</html>

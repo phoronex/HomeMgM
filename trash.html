@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="trash">Trash - Home Purchase Manager</title>
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="purchases">
+                <i class="icon-purchases"></i>
+                <span data-i18n="purchases">Purchases</span>
+            </div>
+            <div class="sidebar-item" data-page="vendors">
+                <i class="icon-vendors"></i>
+                <span data-i18n="vendors">Vendors</span>
+            </div>
+            <div class="sidebar-item" data-page="items">
+                <i class="icon-items"></i>
+                <span data-i18n="items">Items</span>
+            </div>
+            <div class="sidebar-item" data-page="reports">
+                <i class="icon-reports"></i>
+                <span data-i18n="reports">Reports</span>
+            </div>
+            <div class="sidebar-item" data-page="users" id="usersMenuItem" style="display: none;">
+                <i class="icon-users"></i>
+                <span data-i18n="users">Users</span>
+            </div>
+            <div class="sidebar-item" data-page="profile">
+                <i class="icon-profile"></i>
+                <span data-i18n="profile">Profile</span>
+            </div>
+            <div class="sidebar-item" data-page="system-admin" id="systemAdminMenuItem" style="display: none;">
+                <i class="icon-system-admin"></i>
+                <span data-i18n="system_admin">System Admin</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-header">
+                <h1 data-i18n="trash">Trash</h1>
+                <div>
+                    <button id="emptyTrashBtn" class="btn btn-danger" data-i18n="empty_trash">Empty Trash</button>
+                </div>
+            </div>
+            
+            <div class="alert alert-warning">
+                <p data-i18n="trash_warning">Items in trash will be permanently deleted after 30 days. You can restore items before they are permanently deleted.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 data-i18n="deleted_purchases">Deleted Purchases</h2>
+                    <div class="filters">
+                        <select id="trashFilter" class="form-control">
+                            <option value="all" data-i18n="all_items">All Items</option>
+                            <option value="purchases" data-i18n="purchases">Purchases</option>
+                            <option value="vendors" data-i18n="vendors">Vendors</option>
+                            <option value="items" data-i18n="items">Items</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="type">Type</th>
+                                    <th data-i18n="name">Name</th>
+                                    <th data-i18n="deleted_by">Deleted By</th>
+                                    <th data-i18n="deleted_date">Deleted Date</th>
+                                    <th data-i18n="days_left">Days Left</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trashTable">
+                                <!-- Trash items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="/assets/js/firebase-config.js"></script>
+    <script src="/assets/js/utils/language-manager.js"></script>
+    <script src="/assets/js/utils/date-manager.js"></script>
+    <script src="/assets/js/utils/password-manager.js"></script>
+    <script src="/assets/js/utils/validators.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/trash.js"></script>
+</body>
+</html>

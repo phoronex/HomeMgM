@@ -1,0 +1,437 @@
+{
+  "system": {
+    "metadata": {
+      "lastBackup": {
+        "timestamp_unix": 1744567890,
+        "timestamp_iso": "2025-04-13T10:15:30.000Z",
+        "performedBy": "system_admin_uid",
+        "formatted": "13/04/2025 10:15:30 صباحاً"
+      },
+      "config": {
+        "defaultLanguage": "en",
+        "backupSchedule": "weekly"
+      }
+    }
+  },
+  "users": {
+    "user_1": {
+      "arabicName": "أحمد محمد",
+      "englishName": "Ahmed Mohammed",
+      "userName": "ahmed.m",
+      "passwordHash": "hash:salt:10000",
+      "apartmentId": "apartment_101",
+      "role": "apartmentAdmin",
+      "preferredLanguage": "ar",
+      "email": "ahmed@example.com",
+      "isActive": true,
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z",
+        "formatted": "13/04/2025 10:15:30 صباحاً",
+        "dayNameAr": "الأحد",
+        "dayNameEn": "Sunday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "createdBy": "system_admin_uid",
+      "updatedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      }
+    },
+    "user_2": {
+      "arabicName": "فاطمة علي",
+      "englishName": "Fatima Ali",
+      "userName": "fatima.a",
+      "passwordHash": "hash:salt:10000",
+      "apartmentId": "apartment_101",
+      "role": "apartmentUser",
+      "preferredLanguage": "ar",
+      "email": "fatima@example.com",
+      "isActive": true,
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z",
+        "formatted": "13/04/2025 10:15:30 صباحاً",
+        "dayNameAr": "الأحد",
+        "dayNameEn": "Sunday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "createdBy": "user_1",
+      "updatedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      }
+    }
+  },
+  "vendors": {
+    "vendor_1": {
+      "englishName": "Carrefour",
+      "arabicName": "كارفور",
+      "contact": "Customer Service",
+      "phone": "+966 12 345 6789",
+      "email": "info@carrefour.com.sa",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "vendor_2": {
+      "englishName": "Panda",
+      "arabicName": "بنده",
+      "contact": "Store Manager",
+      "phone": "+966 12 345 6788",
+      "email": "info@panda.com.sa",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "vendor_3": {
+      "englishName": "Tamimi Markets",
+      "arabicName": "أسواد التميمي",
+      "contact": "Branch Manager",
+      "phone": "+966 12 345 6787",
+      "email": "info@tamimi.com.sa",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    }
+  },
+  "items": {
+    "item_1": {
+      "englishName": "Milk",
+      "arabicName": "حليب",
+      "category": "groceries",
+      "unitPrice": 5.50,
+      "description": "Fresh milk 1 liter",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_2": {
+      "englishName": "Bread",
+      "arabicName": "خبز",
+      "category": "groceries",
+      "unitPrice": 3.00,
+      "description": "Whole wheat bread",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_3": {
+      "englishName": "Rice",
+      "arabicName": "أرز",
+      "category": "groceries",
+      "unitPrice": 25.00,
+      "description": "Basmati rice 5kg",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_4": {
+      "englishName": "Chicken",
+      "arabicName": "دجاج",
+      "category": "groceries",
+      "unitPrice": 18.00,
+      "description": "Fresh chicken 1kg",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_5": {
+      "englishName": "Tomatoes",
+      "arabicName": "طماطم",
+      "category": "groceries",
+      "unitPrice": 8.00,
+      "description": "Fresh tomatoes 1kg",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_6": {
+      "englishName": "Mobile Phone",
+      "arabicName": "هاتف محمول",
+      "category": "electronics",
+      "unitPrice": 1500.00,
+      "description": "Smartphone 128GB",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_7": {
+      "englishName": "Laptop",
+      "arabicName": "حاسوب محمول",
+      "category": "electronics",
+      "unitPrice": 3500.00,
+      "description": "Laptop 8GB RAM 512GB SSD",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_8": {
+      "englishName": "T-Shirt",
+      "arabicName": "تي شيرت",
+      "category": "clothing",
+      "unitPrice": 45.00,
+      "description": "Cotton t-shirt",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_9": {
+      "englishName": "Jeans",
+      "arabicName": "جينز",
+      "category": "clothing",
+      "unitPrice": 120.00,
+      "description": "Denim jeans",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    },
+    "item_10": {
+      "englishName": "Shampoo",
+      "arabicName": "شامبو",
+      "category": "health",
+      "unitPrice": 35.00,
+      "description": "Hair shampoo 500ml",
+      "createdAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "createdBy": "user_1"
+    }
+  },
+  "purchases": {
+    "purchase_1": {
+      "apartmentId": "apartment_101",
+      "vendorId": "vendor_1",
+      "itemId": "item_1",
+      "quantity": 2,
+      "dateInfo": {
+        "dateTime": "13/04/2025 10:15:30 صباحاً",
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z",
+        "year": 2025,
+        "month": 4,
+        "day": 13,
+        "dayNameAr": "الأحد",
+        "dayNameEn": "Sunday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "itemPriceAtTime": 5.50,
+      "totalPrice": 11.00,
+      "addedBy": "user_2",
+      "addedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "updatedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z"
+      },
+      "isDeleted": false
+    },
+    "purchase_2": {
+      "apartmentId": "apartment_101",
+      "vendorId": "vendor_2",
+      "itemId": "item_2",
+      "quantity": 3,
+      "dateInfo": {
+        "dateTime": "14/04/2025 09:30:45 صباحاً",
+        "unix": 1744647045,
+        "iso": "2025-04-14T09:30:45.000Z",
+        "year": 2025,
+        "month": 4,
+        "day": 14,
+        "dayNameAr": "الاثنين",
+        "dayNameEn": "Monday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "itemPriceAtTime": 3.00,
+      "totalPrice": 9.00,
+      "addedBy": "user_2",
+      "addedAt": {
+        "unix": 1744647045,
+        "iso": "2025-04-14T09:30:45.000Z"
+      },
+      "updatedAt": {
+        "unix": 1744647045,
+        "iso": "2025-04-14T09:30:45.000Z"
+      },
+      "isDeleted": false
+    },
+    "purchase_3": {
+      "apartmentId": "apartment_101",
+      "vendorId": "vendor_3",
+      "itemId": "item_3",
+      "quantity": 1,
+      "dateInfo": {
+        "dateTime": "15/04/2025 02:45:20 مساءً",
+        "unix": 1744736320,
+        "iso": "2025-04-15T14:45:20.000Z",
+        "year": 2025,
+        "month": 4,
+        "day": 15,
+        "dayNameAr": "الثلاثاء",
+        "dayNameEn": "Tuesday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "itemPriceAtTime": 25.00,
+      "totalPrice": 25.00,
+      "addedBy": "user_1",
+      "addedAt": {
+        "unix": 1744736320,
+        "iso": "2025-04-15T14:45:20.000Z"
+      },
+      "updatedAt": {
+        "unix": 1744736320,
+        "iso": "2025-04-15T14:45:20.000Z"
+      },
+      "isDeleted": false
+    },
+    "purchase_4": {
+      "apartmentId": "apartment_101",
+      "vendorId": "vendor_1",
+      "itemId": "item_4",
+      "quantity": 2,
+      "dateInfo": {
+        "dateTime": "16/04/2025 06:20:15 مساءً",
+        "unix": 1744832815,
+        "iso": "2025-04-16T18:20:15.000Z",
+        "year": 2025,
+        "month": 4,
+        "day": 16,
+        "dayNameAr": "الأربعاء",
+        "dayNameEn": "Wednesday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "itemPriceAtTime": 18.00,
+      "totalPrice": 36.00,
+      "addedBy": "user_2",
+      "addedAt": {
+        "unix": 1744832815,
+        "iso": "2025-04-16T18:20:15.000Z"
+      },
+      "updatedAt": {
+        "unix": 1744832815,
+        "iso": "2025-04-16T18:20:15.000Z"
+      },
+      "isDeleted": false
+    },
+    "purchase_5": {
+      "apartmentId": "apartment_101",
+      "vendorId": "vendor_2",
+      "itemId": "item_5",
+      "quantity": 1,
+      "dateInfo": {
+        "dateTime": "17/04/2025 11:10:30 صباحاً",
+        "unix": 1744894230,
+        "iso": "2025-04-17T11:10:30.000Z",
+        "year": 2025,
+        "month": 4,
+        "day": 17,
+        "dayNameAr": "الخميس",
+        "dayNameEn": "Thursday",
+        "monthNameAr": "أبريل",
+        "monthNameEn": "April"
+      },
+      "itemPriceAtTime": 8.00,
+      "totalPrice": 8.00,
+      "addedBy": "user_1",
+      "addedAt": {
+        "unix": 1744894230,
+        "iso": "2025-04-17T11:10:30.000Z"
+      },
+      "updatedAt": {
+        "unix": 1744894230,
+        "iso": "2025-04-17T11:10:30.000Z"
+      },
+      "isDeleted": false
+    }
+  },
+  "backup_transactions": {
+    "log_1": {
+      "action": "CREATE_PURCHASE",
+      "targetTable": "purchases",
+      "targetId": "purchase_1",
+      "oldData": {},
+      "newData": {
+        "apartmentId": "apartment_101",
+        "vendorId": "vendor_1",
+        "itemId": "item_1",
+        "quantity": 2,
+        "totalPrice": 11.00
+      },
+      "performedBy": "user_2",
+      "performedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z",
+        "formatted": "13/04/2025 10:15:30 صباحاً"
+      }
+    },
+    "log_2": {
+      "action": "CREATE_PURCHASE",
+      "targetTable": "purchases",
+      "targetId": "purchase_2",
+      "oldData": {},
+      "newData": {
+        "apartmentId": "apartment_101",
+        "vendorId": "vendor_2",
+        "itemId": "item_2",
+        "quantity": 3,
+        "totalPrice": 9.00
+      },
+      "performedBy": "user_2",
+      "performedAt": {
+        "unix": 1744647045,
+        "iso": "2025-04-14T09:30:45.000Z",
+        "formatted": "14/04/2025 09:30:45 صباحاً"
+      }
+    },
+    "log_3": {
+      "action": "CREATE_USER",
+      "targetTable": "users",
+      "targetId": "user_2",
+      "oldData": {},
+      "newData": {
+        "userName": "fatima.a",
+        "role": "apartmentUser",
+        "apartmentId": "apartment_101"
+      },
+      "performedBy": "user_1",
+      "performedAt": {
+        "unix": 1744567890,
+        "iso": "2025-04-13T10:15:30.000Z",
+        "formatted": "13/04/2025 10:15:30 صباحاً"
+      }
+    }
+  }
+}
