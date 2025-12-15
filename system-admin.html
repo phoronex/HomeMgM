@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="system_admin_title">System Administration</title>
+    <link rel="stylesheet" href="/HomeMgM/assets/css/theme.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/layout.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/components.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="database-tools">
+                <i class="icon-database"></i>
+                <span data-i18n="database_tools">Database Tools</span>
+            </div>
+            <div class="sidebar-item" data-page="user-management">
+                <i class="icon-users"></i>
+                <span data-i18n="user_management">User Management</span>
+            </div>
+            <div class="sidebar-item" data-page="system-config">
+                <i class="icon-settings"></i>
+                <span data-i18n="system_config">System Configuration</span>
+            </div>
+            <div class="sidebar-item" data-page="monitoring">
+                <i class="icon-monitoring"></i>
+                <span data-i18n="monitoring">Monitoring</span>
+            </div>
+            <div class="sidebar-item" data-page="maintenance">
+                <i class="icon-maintenance"></i>
+                <span data-i18n="maintenance">Maintenance</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div id="dashboardPage" class="admin-page">
+                <h1 data-i18n="system_admin_title">System Administration</h1>
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h3 data-i18n="total_users">Total Users</h3>
+                        <p id="totalUsersCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="total_apartments">Total Apartments</h3>
+                        <p id="totalApartmentsCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="total_purchases">Total Purchases</h3>
+                        <p id="totalPurchasesCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="last_backup">Last Backup</h3>
+                        <p id="lastBackupDate">N/A</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="databaseToolsPage" class="admin-page" style="display: none;">
+                <h1 data-i18n="database_tools">Database Tools</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="backup_restore">Backup & Restore</h2>
+                    </div>
+                    <div class="card-body">
+                        <button id="fullBackupBtn" class="btn" data-i18n="full_backup">Full Database Backup</button>
+                        <button id="restoreBackupBtn" class="btn btn-secondary" data-i18n="restore_backup">Restore from Backup</button>
+                        <button id="resetDbBtn" class="btn btn-danger" data-i18n="reset_database">Reset Database</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="export_options">Export Options</h2>
+                    </div>
+                    <div class="card-body">
+                        <button id="exportStatsBtn" class="btn" data-i18n="export_statistics">Export Statistics</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="userManagementPage" class="admin-page" style="display: none;">
+                <h1 data-i18n="user_management">User Management</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="all_users">All Users</h2>
+                        <button id="addUserBtn" class="btn" data-i18n="add_user">Add User</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="username">Username</th>
+                                        <th data-i18n="name">Name</th>
+                                        <th data-i18n="apartment">Apartment</th>
+                                        <th data-i18n="role">Role</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="systemConfigPage" class="admin-page" style="display: none;">
+                <h1 data-i18n="system_config">System Configuration</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="general_settings">General Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="defaultLanguage" class="form-label" data-i18n="default_language">Default Language</label>
+                            <select id="defaultLanguage" class="form-control">
+                                <option value="en">English</option>
+                                <option value="ar">العربية</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="backupSchedule" class="form-label" data-i18n="backup_schedule">Backup Schedule</label>
+                            <select id="backupSchedule" class="form-control">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <button id="saveConfigBtn" class="btn" data-i18n="save_config">Save Configuration</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="monitoringPage" class="admin-page" style="display: none;">
+                <h1 data-i18n="monitoring">System Monitoring</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="activity_log">Activity Log</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table" id="activityLogTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="timestamp">Timestamp</th>
+                                        <th data-i18n="action">Action</th>
+                                        <th data-i18n="user">User</th>
+                                        <th data-i18n="details">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityLogTableBody">
+                                    <!-- Activity logs will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="performance_metrics">Performance Metrics</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric">
+                            <span data-i18n="storage_usage">Storage Usage:</span>
+                            <span id="storageUsage">0 MB</span>
+                        </div>
+                        <div class="metric">
+                            <span data-i18n="db_size">Database Size:</span>
+                            <span id="dbSize">0 MB</span>
+                        </div>
+                        <div class="metric">
+                            <span data-i18n="active_connections">Active Connections:</span>
+                            <span id="activeConnections">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="maintenancePage" class="admin-page" style="display: none;">
+                <h1 data-i18n="maintenance">System Maintenance</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 data-i18n="maintenance_tools">Maintenance Tools</h2>
+                    </div>
+                    <div class="card-body">
+                        <button id="rebuildIndexesBtn" class="btn" data-i18n="rebuild_indexes">Rebuild Indexes</button>
+                        <button id="cleanupBackupsBtn" class="btn btn-secondary" data-i18n="cleanup_backups">Cleanup Old Backups</button>
+                        <button id="optimizeDbBtn" class="btn btn-secondary" data-i18n="optimize_database">Optimize Database</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="user_details">User Details</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="userName" class="form-label" data-i18n="username">Username</label>
+                        <input type="text" id="userName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="englishName" class="form-label" data-i18n="english_name">English Name</label>
+                        <input type="text" id="englishName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="arabicName" class="form-label" data-i18n="arabic_name">Arabic Name</label>
+                        <input type="text" id="arabicName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label" data-i18n="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apartmentId" class="form-label" data-i18n="apartment_id">Apartment ID</label>
+                        <input type="text" id="apartmentId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="form-label" data-i18n="role">Role</label>
+                        <select id="role" class="form-control" required>
+                            <option value="apartmentUser" data-i18n="apartment_user">Apartment User</option>
+                            <option value="apartmentAdmin" data-i18n="apartment_admin">Apartment Admin</option>
+                            <option value="systemAdmin" data-i18n="system_admin">System Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label" data-i18n="password">Password</label>
+                        <input type="password" id="password" class="form-control">
+                        <div id="passwordStrength"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="preferredLanguage" class="form-label" data-i18n="preferred_language">Preferred Language</label>
+                        <select id="preferredLanguage" class="form-control">
+                            <option value="en">English</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn" data-i18n="save">Save</button>
+                        <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restore Backup Modal -->
+    <div id="restoreBackupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="restore_backup">Restore from Backup</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="backupFile" class="form-label" data-i18n="select_backup_file">Select Backup File</label>
+                    <input type="file" id="backupFile" class="form-control" accept=".json">
+                </div>
+                <div class="alert alert-warning">
+                    <p data-i18n="restore_warning">Warning: This will replace all current data with the backup data. This action cannot be undone.</p>
+                </div>
+                <div class="form-actions">
+                    <button id="confirmRestoreBtn" class="btn btn-danger" data-i18n="confirm_restore">Confirm Restore</button>
+                    <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Database Modal -->
+    <div id="resetDbModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" data-i18n="reset_database">Reset Database</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <p data-i18n="reset_warning">Warning: This will permanently delete all data in the database. This action cannot be undone.</p>
+                </div>
+                <div class="form-group">
+                    <label for="confirmText" class="form-label" data-i18n="type_confirm">Type "RESET" to confirm:</label>
+                    <input type="text" id="confirmText" class="form-control">
+                </div>
+                <div class="form-actions">
+                    <button id="confirmResetBtn" class="btn btn-danger" data-i18n="confirm_reset" disabled>Confirm Reset</button>
+                    <button type="button" class="btn btn-secondary modal-close" data-i18n="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="/HomeMgM/assets/js/firebase-config.js"></script>
+    <script src="/HomeMgM/assets/js/utils/language-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/date-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/password-manager.js"></script>
+    <script src="/HomeMgM/assets/js/auth.js"></script>
+    <script src="/HomeMgM/assets/js/main.js"></script>
+    <script src="/HomeMgM/assets/js/system-admin.js"></script>
+</body>
+</html>

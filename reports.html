@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="reports">Reports - Home Purchase Manager</title>
+    <link rel="stylesheet" href="/HomeMgM/assets/css/theme.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/layout.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/components.css">
+    <link rel="stylesheet" href="/HomeMgM/assets/css/rtl-overrides.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo" data-i18n="app_title">Home Purchase Manager</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="ar">العربية</button>
+                </div>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" data-i18n="logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-item" data-page="dashboard">
+                <i class="icon-dashboard"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </div>
+            <div class="sidebar-item" data-page="purchases">
+                <i class="icon-purchases"></i>
+                <span data-i18n="purchases">Purchases</span>
+            </div>
+            <div class="sidebar-item" data-page="vendors">
+                <i class="icon-vendors"></i>
+                <span data-i18n="vendors">Vendors</span>
+            </div>
+            <div class="sidebar-item" data-page="items">
+                <i class="icon-items"></i>
+                <span data-i18n="items">Items</span>
+            </div>
+            <div class="sidebar-item active" data-page="reports">
+                <i class="icon-reports"></i>
+                <span data-i18n="reports">Reports</span>
+            </div>
+            <div class="sidebar-item" data-page="users" id="usersMenuItem" style="display: none;">
+                <i class="icon-users"></i>
+                <span data-i18n="users">Users</span>
+            </div>
+            <div class="sidebar-item" data-page="profile">
+                <i class="icon-profile"></i>
+                <span data-i18n="profile">Profile</span>
+            </div>
+            <div class="sidebar-item" data-page="system-admin" id="systemAdminMenuItem" style="display: none;">
+                <i class="icon-system-admin"></i>
+                <span data-i18n="system_admin">System Admin</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-header">
+                <h1 data-i18n="reports">Reports</h1>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 data-i18n="generate_report">Generate Report</h2>
+                </div>
+                <div class="card-body">
+                    <form id="reportForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportType" class="form-label" data-i18n="report_type">Report Type</label>
+                                <select id="reportType" class="form-control" required>
+                                    <option value="monthly" data-i18n="monthly_report">Monthly Report</option>
+                                    <option value="yearly" data-i18n="yearly_report">Yearly Report</option>
+                                    <option value="category" data-i18n="category_report">Category Report</option>
+                                    <option value="vendor" data-i18n="vendor_report">Vendor Report</option>
+                                    <option value="item" data-i18n="item_report">Item Report</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reportPeriod" class="form-label" data-i18n="report_period">Report Period</label>
+                                <input type="month" id="reportPeriod" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportLanguage" class="form-label" data-i18n="report_language">Report Language</label>
+                                <select id="reportLanguage" class="form-control" required>
+                                    <option value="en" data-i18n="english">English</option>
+                                    <option value="ar" data-i18n="arabic">Arabic</option>
+                                    <option value="bilingual" data-i18n="bilingual">Bilingual</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reportFormat" class="form-label" data-i18n="report_format">Report Format</label>
+                                <select id="reportFormat" class="form-control" required>
+                                    <option value="pdf">PDF</option>
+                                    <option value="excel">Excel</option>
+                                    <option value="html">HTML</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="includeCharts" class="form-label">
+                                <input type="checkbox" id="includeCharts" checked>
+                                <span data-i18n="include_charts">Include Charts</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn" data-i18n="generate_report">Generate Report</button>
+                            <button type="button" id="previewReportBtn" class="btn btn-secondary" data-i18n="preview_report">Preview</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="reportPreview" class="card" style="display: none;">
+                <div class="card-header">
+                    <h2 data-i18n="report_preview">Report Preview</h2>
+                    <div>
+                        <button id="downloadReportBtn" class="btn" data-i18n="download">Download</button>
+                        <button id="closePreviewBtn" class="btn btn-secondary" data-i18n="close">Close</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="reportContent">
+                        <!-- Report preview will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="/HomeMgM/assets/js/firebase-config.js"></script>
+    <script src="/HomeMgM/assets/js/utils/language-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/date-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/password-manager.js"></script>
+    <script src="/HomeMgM/assets/js/utils/validators.js"></script>
+    <script src="/HomeMgM/assets/js/auth.js"></script>
+    <script src="/HomeMgM/assets/js/main.js"></script>
+    <script src="/HomeMgM/assets/js/reports.js"></script>
+</body>
+</html>
